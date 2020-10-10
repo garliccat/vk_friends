@@ -11,9 +11,7 @@ pd.set_option('display.width', 200)
 df = pd.read_csv('vk_friends.csv', sep=';', header=None)
 
 ### data cleaning / preprocessing
-
 df.columns = ['uid', 'name', 'frndsnum', 'friends']
-
 df['friends'] = df['friends'].str.split('|')
 df = df[['name', 'friends']].explode('friends')
 df['count'] = 1
@@ -29,7 +27,6 @@ records = df.shape[0]
 
 ### list of top friend-lovers
 bestfr = df[['name', 'count']].groupby('name', as_index=False).sum().sort_values(by='count', ascending=False)[:topfriendlover]['name'].to_list()
-
 df = df[df['name'].isin(bestfr)]
 
 # df = df[:pow(topfriendlover, 2)]
